@@ -45,7 +45,16 @@ with open(sourceFile, "w") as file:
                 parsed[1] = parsed[1][1:]
                 parsed[2] = parsed[2][1:-1]
 
-                output = 'm117 ' + parsed[1] + '% ' + parsed[2] + " minutes left"
+                # Convert minutes to hours and minutes if necessary
+                remaining_minutes = int(parsed[2])
+                if remaining_minutes >= 60:
+                    hours = remaining_minutes // 60
+                    minutes = remaining_minutes % 60
+                    time_remaining = f"{hours}h{minutes}m"
+                else:
+                    time_remaining = f"{remaining_minutes}m"
+
+                output = 'm117 ' + parsed[1] + '% ' + time_remaining + " left"
 
                 if debug >= 2:
                     print(f"converted {stringMatch} to {output}")
